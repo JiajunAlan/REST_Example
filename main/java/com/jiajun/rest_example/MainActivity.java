@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_cityID, btn_getWeather_by_cityName, btn_getWeather_by_cityID;
     EditText et_input;
+    TextView tv_CityID_Result;
     ListView lv_report;
 
     @Override
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeather_by_cityName = findViewById(R.id.BTN_Get_Weather_By_Name);
         et_input = findViewById(R.id.et_input);
         lv_report = findViewById(R.id.lv_report);
+        tv_CityID_Result = findViewById(R.id.tv_cityID_result);
         Weather weather = new Weather(MainActivity.this);
 
         //listeners.
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String cityID) {
+                        tv_CityID_Result.setText(et_input.getText().toString() +": " + cityID);
                         Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_LONG).show();
                     }
                 });

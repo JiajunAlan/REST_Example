@@ -56,12 +56,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:ems="10"
         android:hint="@string/hint"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BTN_Get_Weather_By_Name" />
 
@@ -73,5 +70,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_input" />
+
+    <TextView
+        android:id="@+id/tv_cityID_result"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/et_input"
+        app:layout_constraintTop_toBottomOf="@+id/BTN_Get_Weather_By_Name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
