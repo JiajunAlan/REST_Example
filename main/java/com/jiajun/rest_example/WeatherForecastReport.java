@@ -93,7 +93,6 @@ public class WeatherForecastReport {
         return  "Date: " + applicable_date + "\n" +
                 "weather state name: " + weather_state_name + "\n" +
                 "wind direction compass: " + wind_direction_compass + "\n" +
-
                 "min temp= " + min_temp + "\n" +
                 "max temp= " + max_temp + "\n" +
                 "the temp= " + the_temp + "\n" +

@@ -1,7 +1,6 @@
 package com.jiajun.rest_example;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -83,8 +82,9 @@ public class Weather {
                 //Toast.makeText(context,response.toString(),Toast.LENGTH_SHORT).show();
 
                 try {
+                    //choose the consolidated_weather.
                     JSONArray weather_list = response.getJSONArray("consolidated_weather");
-
+                    //loop for days.
                     for (int i = 0; i < weather_list.length(); i++) {
                         WeatherForecastReport one_day_report = new WeatherForecastReport();
                         JSONObject first_day = (JSONObject) weather_list.get(i);
@@ -104,6 +104,7 @@ public class Weather {
                         one_day_report.setHumidity(first_day.getInt("humidity"));
                         one_day_report.setVisibility(first_day.getLong("humidity"));
                         one_day_report.setPredictability(first_day.getInt("predictability"));
+                        //add to list
                         weatherForecastReports.add(one_day_report);
                     }
                     forecastByIDResponse.onResponse(weatherForecastReports);
@@ -126,6 +127,7 @@ public class Weather {
         void onResponse(List<WeatherForecastReport> weatherForecastReports);
     }
     public void getForecastByName(String cityName, GetForecastByName getForecastByName){
+        //call get city id
         getcityID(cityName, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -134,12 +136,12 @@ public class Weather {
 
             @Override
             public void onResponse(String cityID) {
+                //call get weather by city id.
                 getForcastByID(cityID, new ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
 
                     }
-
                     @Override
                     public void onResponse(List<WeatherForecastReport> weatherForecastReport) {
                         //got report

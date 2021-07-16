@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //initialize the buttons textview, edittext and listview.
         btn_cityID = findViewById(R.id.btn_Get_City_id);
         btn_getWeather_by_cityID = findViewById(R.id.btn_Get_Weather_By_ID);
         btn_getWeather_by_cityName = findViewById(R.id.BTN_Get_Weather_By_Name);
@@ -61,16 +62,16 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_LONG).show();
                     }
                 });
-
             }
         });
+
         btn_getWeather_by_cityName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 weather.getForecastByName(et_input.getText().toString(), new Weather.GetForecastByName() {
                     @Override
                     public void onError(String message) {
-
+                        Toast.makeText(MainActivity.this, "Error occurred",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -81,21 +82,17 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, "weatherForecastReport.toString()",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-
             }
         });
+
         btn_getWeather_by_cityID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 weather.getForcastByID(et_input.getText().toString(), new Weather.ForecastByIDResponse() {
                     @Override
                     public void onError(String message) {
-
+                        Toast.makeText(MainActivity.this, "Error occurred",Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onResponse(List<WeatherForecastReport> weatherForecastReport) {
                         ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,weatherForecastReport);
