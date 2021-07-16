@@ -88,25 +88,15 @@ public class WeatherForecastReport {
         this.visibility = visibility;
     }
 
-
     @Override
     public String toString() {
-        return "WeatherForcastReport{" +
-                "id=" + id +
-                ", air_pressure=" + air_pressure +
-                ", humidity=" + humidity +
-                ", predictability=" + predictability +
-                ", weather_state_name='" + weather_state_name + '\'' +
-                ", weather_state_abbr='" + weather_state_abbr + '\'' +
-                ", wind_direction_compass='" + wind_direction_compass + '\'' +
-                ", created='" + created + '\'' +
-                ", applicable_date='" + applicable_date + '\'' +
-                ", min_temp=" + min_temp +
-                ", max_temp=" + max_temp +
-                ", the_temp=" + the_temp +
-                ", wind_speed=" + wind_speed +
-                ", wind_direction=" + wind_direction +
-                ", visibility=" + visibility +
-                '}';
+        return  "Date: " + applicable_date + "\n" +
+                "weather state name: " + weather_state_name + "\n" +
+                "wind direction compass: " + wind_direction_compass + "\n" +
+
+                "min temp= " + min_temp + "\n" +
+                "max temp= " + max_temp + "\n" +
+                "the temp= " + the_temp + "\n" +
+                "wind speed= " + wind_speed;
     }
 }

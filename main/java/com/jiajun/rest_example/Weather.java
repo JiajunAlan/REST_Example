@@ -37,7 +37,7 @@ public class Weather {
      * **/
     public interface ForecastByIDResponse{
         void onError(String message);
-        void onResponse(WeatherForecastReport weatherForecastReport);
+        void onResponse(List<WeatherForecastReport> weatherForecastReport);
     }
     /** return city id
      * **/
@@ -74,7 +74,8 @@ public class Weather {
     }
 
     public void getForcastByID(String cityID, ForecastByIDResponse forecastByIDResponse){
-        List<WeatherForecastReport> report = new ArrayList<>();
+        List<WeatherForecastReport> weatherForecastReports = new ArrayList<>();
+
         String url = QUERY_TO_GET_FORECAST_BY_CITY_ID + cityID;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -83,27 +84,29 @@ public class Weather {
 
                 try {
                     JSONArray weather_list = response.getJSONArray("consolidated_weather");
-                    WeatherForecastReport weatherForecastReport = new WeatherForecastReport();
 
-                    JSONObject first_day = (JSONObject) weather_list.get(0);
+                    for (int i = 0; i < weather_list.length(); i++) {
+                        WeatherForecastReport one_day_report = new WeatherForecastReport();
+                        JSONObject first_day = (JSONObject) weather_list.get(i);
 
-                    weatherForecastReport.setId(first_day.getInt("id"));
-                    weatherForecastReport.setWeather_state_name(first_day.getString("weather_state_name"));
-                    weatherForecastReport.setWeather_state_abbr(first_day.getString("weather_state_abbr"));
-                    weatherForecastReport.setWind_direction_compass(first_day.getString("wind_direction_compass"));
-                    weatherForecastReport.setCreated(first_day.getString("created"));
-                    weatherForecastReport.setApplicable_date(first_day.getString("applicable_date"));
-                    weatherForecastReport.setMin_temp(first_day.getLong("min_temp"));
-                    weatherForecastReport.setMax_temp(first_day.getLong("max_temp"));
-                    weatherForecastReport.setThe_temp(first_day.getLong("the_temp"));
-                    weatherForecastReport.setWind_speed(first_day.getLong("wind_speed"));
-                    weatherForecastReport.setWind_direction(first_day.getLong("wind_direction"));
-                    weatherForecastReport.setAir_pressure(first_day.getInt("air_pressure"));
-                    weatherForecastReport.setHumidity(first_day.getInt("humidity"));
-                    weatherForecastReport.setVisibility(first_day.getLong("humidity"));
-                    weatherForecastReport.setPredictability(first_day.getInt("predictability"));
-
-                    forecastByIDResponse.onResponse(weatherForecastReport);
+                        one_day_report.setId(first_day.getInt("id"));
+                        one_day_report.setWeather_state_name(first_day.getString("weather_state_name"));
+                        one_day_report.setWeather_state_abbr(first_day.getString("weather_state_abbr"));
+                        one_day_report.setWind_direction_compass(first_day.getString("wind_direction_compass"));
+                        one_day_report.setCreated(first_day.getString("created"));
+                        one_day_report.setApplicable_date(first_day.getString("applicable_date"));
+                        one_day_report.setMin_temp(first_day.getLong("min_temp"));
+                        one_day_report.setMax_temp(first_day.getLong("max_temp"));
+                        one_day_report.setThe_temp(first_day.getLong("the_temp"));
+                        one_day_report.setWind_speed(first_day.getLong("wind_speed"));
+                        one_day_report.setWind_direction(first_day.getLong("wind_direction"));
+                        one_day_report.setAir_pressure(first_day.getInt("air_pressure"));
+                        one_day_report.setHumidity(first_day.getInt("humidity"));
+                        one_day_report.setVisibility(first_day.getLong("humidity"));
+                        one_day_report.setPredictability(first_day.getInt("predictability"));
+                        weatherForecastReports.add(one_day_report);
+                    }
+                    forecastByIDResponse.onResponse(weatherForecastReports);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
