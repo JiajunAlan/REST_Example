@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">REST_Example</string>
+    <string name="btn_Get_City_id">Get City ID</string>
+    <string name="btn_Get_Weather_By_ID">Weather By ID</string>
+    <string name="btn_Get_Weather_By_name">Weather by Name</string>
+    <string name="hint">Enter City\'s name/ id</string>
 </resources>
