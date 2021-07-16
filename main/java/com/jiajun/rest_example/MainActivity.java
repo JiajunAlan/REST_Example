@@ -36,54 +36,24 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeather_by_cityName = findViewById(R.id.BTN_Get_Weather_By_Name);
         et_input = findViewById(R.id.et_input);
         lv_report = findViewById(R.id.lv_report);
+        Weather weather = new Weather(MainActivity.this);
 
         //listeners.
         btn_cityID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Instantiate the RequestQueue.
-                //RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
 
-                String url ="https://www.metaweather.com/api/location/search/?query=";
-
-                JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + et_input.getText().toString(), null, new Response.Listener<JSONArray>() {
+                 weather.getcityID(et_input.getText().toString(), new Weather.VolleyResponseListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        String cityID = "";
-                        try {
-                            JSONObject city_data = response.getJSONObject(0);
-                            cityID = city_data.getString("woeid");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this,"Something wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String cityID) {
                         Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this,"Something Wrong",Toast.LENGTH_SHORT).show();
-                    }
                 });
-
-// Request a string response from the provided URL.
-//                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                        new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                // Display the first 500 characters of the response string
-//                                Toast.makeText(MainActivity.this, response,Toast.LENGTH_SHORT).show();
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(MainActivity.this, "error occured", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
-// Add the request to the RequestQueue.
-//                queue.add(request);
-               // Toast.makeText(MainActivity.this, "clicked",Toast.LENGTH_SHORT).show();
-                Volley_Singleton.getInstance(MainActivity.this).addToRequestQueue(request);
 
             }
         });
