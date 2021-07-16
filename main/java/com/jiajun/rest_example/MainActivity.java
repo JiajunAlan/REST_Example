@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String cityID) {
-                        tv_CityID_Result.setText(et_input.getText().toString() +": " + cityID);
+                        tv_CityID_Result.setText(et_input.getText().toString() +": \n" + cityID);
+                        lv_report.setAdapter(null);
                         Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_LONG).show();
                     }
                 });
