@@ -120,6 +120,52 @@ public class Weather {
         });
         Volley_Singleton.getInstance(context).addToRequestQueue(request);
     }
+
+    public interface GetForecastByName{
+        void onError(String message);
+        void onResponse(List<WeatherForecastReport> weatherForecastReports);
+    }
+    public void getForecastByName(String cityName, GetForecastByName getForecastByName){
+        getcityID(cityName, new VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(String cityID) {
+                getForcastByID(cityID, new ForecastByIDResponse() {
+                    @Override
+                    public void onError(String message) {
+
+                    }
+
+                    @Override
+                    public void onResponse(List<WeatherForecastReport> weatherForecastReport) {
+                        //got report
+                        getForecastByName.onResponse(weatherForecastReport);
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 //string request notes.
 // Request a string response from the provided URL.
