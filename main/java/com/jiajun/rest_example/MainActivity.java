@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Instantiate the RequestQueue.
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                //RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+
                 String url ="https://www.metaweather.com/api/location/search/?query=";
 
                 JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + et_input.getText().toString(), null, new Response.Listener<JSONArray>() {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Something Wrong",Toast.LENGTH_SHORT).show();
                     }
                 });
-                
+
 // Request a string response from the provided URL.
 //                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 //                        new Response.Listener<String>() {
@@ -80,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
 //                });
 
 // Add the request to the RequestQueue.
-                queue.add(request);
+//                queue.add(request);
                // Toast.makeText(MainActivity.this, "clicked",Toast.LENGTH_SHORT).show();
+                Volley_Singleton.getInstance(MainActivity.this).addToRequestQueue(request);
+
             }
         });
         btn_getWeather_by_cityName.setOnClickListener(new View.OnClickListener() {
