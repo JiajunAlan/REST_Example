@@ -7,13 +7,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Weather {
     public static final String QUERY_TO_GET_CITY_ID = "https://www.metaweather.com/api/location/search/?query=";
+    public static final String QUERY_TO_GET_FORECAST_BY_CITY_ID = "https://www.metaweather.com/api/location/";
     Context context;
     String cityID = "";
     /** Construtor initial with the context.
@@ -21,13 +26,19 @@ public class Weather {
     public Weather(Context context) {
         this.context = context;
     }
-    /**call back
+    /**call back for city id
      * **/
     public interface VolleyResponseListener{
         void onError(String message);
         void onResponse(String cityID);
     }
 
+    /** call back for forecast by id.
+     * **/
+    public interface ForecastByIDResponse{
+        void onError(String message);
+        void onResponse(WeatherForecastReport weatherForecastReport);
+    }
     /** return city id
      * **/
     public void getcityID(String cityName, VolleyResponseListener volleyResponseListener){
@@ -60,6 +71,51 @@ public class Weather {
         Volley_Singleton.getInstance(context).addToRequestQueue(request);
         //using call backs no longer need return.
         //return cityID;
+    }
+
+    public void getForcastByID(String cityID, ForecastByIDResponse forecastByIDResponse){
+        List<WeatherForecastReport> report = new ArrayList<>();
+        String url = QUERY_TO_GET_FORECAST_BY_CITY_ID + cityID;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //Toast.makeText(context,response.toString(),Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONArray weather_list = response.getJSONArray("consolidated_weather");
+                    WeatherForecastReport weatherForecastReport = new WeatherForecastReport();
+
+                    JSONObject first_day = (JSONObject) weather_list.get(0);
+
+                    weatherForecastReport.setId(first_day.getInt("id"));
+                    weatherForecastReport.setWeather_state_name(first_day.getString("weather_state_name"));
+                    weatherForecastReport.setWeather_state_abbr(first_day.getString("weather_state_abbr"));
+                    weatherForecastReport.setWind_direction_compass(first_day.getString("wind_direction_compass"));
+                    weatherForecastReport.setCreated(first_day.getString("created"));
+                    weatherForecastReport.setApplicable_date(first_day.getString("applicable_date"));
+                    weatherForecastReport.setMin_temp(first_day.getLong("min_temp"));
+                    weatherForecastReport.setMax_temp(first_day.getLong("max_temp"));
+                    weatherForecastReport.setThe_temp(first_day.getLong("the_temp"));
+                    weatherForecastReport.setWind_speed(first_day.getLong("wind_speed"));
+                    weatherForecastReport.setWind_direction(first_day.getLong("wind_direction"));
+                    weatherForecastReport.setAir_pressure(first_day.getInt("air_pressure"));
+                    weatherForecastReport.setHumidity(first_day.getInt("humidity"));
+                    weatherForecastReport.setVisibility(first_day.getLong("humidity"));
+                    weatherForecastReport.setPredictability(first_day.getInt("predictability"));
+
+                    forecastByIDResponse.onResponse(weatherForecastReport);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Volley_Singleton.getInstance(context).addToRequestQueue(request);
     }
 }
 //string request notes.

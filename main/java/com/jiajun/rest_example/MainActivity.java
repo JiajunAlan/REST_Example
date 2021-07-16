@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
                  weather.getcityID(et_input.getText().toString(), new Weather.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(MainActivity.this,"Something wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Something wrong when get city id.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponse(String cityID) {
-                        Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"The city id is "+ cityID, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -60,13 +60,30 @@ public class MainActivity extends AppCompatActivity {
         btn_getWeather_by_cityName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Your message" + et_input.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
+
+
+
             }
         });
         btn_getWeather_by_cityID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "clicked",Toast.LENGTH_SHORT).show();
+                weather.getForcastByID("4118", new Weather.ForecastByIDResponse() {
+                    @Override
+                    public void onError(String message) {
+
+                    }
+
+                    @Override
+                    public void onResponse(WeatherForecastReport weatherForecastReport) {
+                        Toast.makeText(MainActivity.this, weatherForecastReport.toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "weatherForecastReport.toString()",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                //Toast.makeText(MainActivity.this, "clicked",Toast.LENGTH_SHORT).show();
+                //et_input.getText().toString()
             }
         });
     }
